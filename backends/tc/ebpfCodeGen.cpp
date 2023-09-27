@@ -515,19 +515,6 @@ void PnaStateTranslationVisitor::compileExtractField(const IR::Expression *expr,
     cstring msgStr;
     cstring fieldName = field->name.name;
 
-    bool checkIfMAC = false;
-    auto annolist = field->getAnnotations()->annotations;
-    for (auto anno : annolist) {
-        if (anno->name != ParseTCAnnotations::tcType) continue;
-        auto annoBody = anno->body;
-        for (auto annoVal : annoBody) {
-            if (annoVal->text == "macaddr") {
-                checkIfMAC = true;
-                break;
-            }
-        }
-    }
-
     msgStr = Util::printf_format("Parser: extracting field %s", fieldName);
     builder->target->emitTraceMessage(builder, msgStr.c_str());
 
@@ -537,64 +524,35 @@ void PnaStateTranslationVisitor::compileExtractField(const IR::Expression *expr,
         unsigned wordsToRead = lastWordIndex + 1;
         unsigned loadSize;
 
-        const char *helper = nullptr;
         if (wordsToRead <= 1) {
-            helper = "load_byte";
             loadSize = 8;
         } else if (wordsToRead <= 2) {
-            helper = "load_half";
             loadSize = 16;
         } else if (wordsToRead <= 4) {
-            helper = "load_word";
             loadSize = 32;
         } else {
             if (wordsToRead > 64) BUG("Unexpected width %d", widthToExtract);
-            helper = "load_dword";
             loadSize = 64;
         }
 
         unsigned shift = loadSize - alignment - widthToExtract;
         builder->emitIndent();
-        if (checkIfMAC) {
-            builder->appendFormat("__builtin_memcpy(&");
-            visit(expr);
-            builder->appendFormat(".%s, %s + BYTES(%s), %d)", fieldName,
-                                  program->packetStartVar.c_str(), program->offsetVar.c_str(),
-                                  widthToExtract / 8);
-        } else {
-            visit(expr);
-            builder->appendFormat(".%s = (", fieldName);
+        builder->appendFormat("__builtin_memcpy(&");
+        visit(expr);
+        builder->appendFormat(".%s, %s + ", fieldName, program->packetStartVar.c_str());
+        if (widthToExtract != loadSize) builder->append("(");
+        builder->appendFormat("BYTES(%s)", program->offsetVar.c_str());
+        if (shift != 0) builder->appendFormat(" >> %d", shift);
+        if (widthToExtract != loadSize) {
+            builder->append(" & EBPF_MASK(");
             type->emit(builder);
-            builder->appendFormat(")((%s(%s, BYTES(%s))", helper, program->packetStartVar.c_str(),
-                                  program->offsetVar.c_str());
-            if (shift != 0) builder->appendFormat(" >> %d", shift);
-            builder->append(")");
-            if (widthToExtract != loadSize) {
-                builder->append(" & EBPF_MASK(");
-                type->emit(builder);
-                builder->appendFormat(", %d)", widthToExtract);
-            }
-            builder->append(")");
+            builder->appendFormat(", %d))", widthToExtract);
         }
+        builder->append(", sizeof(");
+        visit(expr);
+        builder->appendFormat(".%s))", fieldName);
         builder->endOfStatement(true);
     } else {
-        if (program->options.arch == "psa" && widthToExtract % 8 != 0) {
-            // To explain the problem in error lets assume that we have bit<68> field with value:
-            //   0x11223344556677889
-            //                     ^ this digit will be parsed into a half of byte
-            // Such fields are parsed into a table of bytes in network byte order, so possible
-            // values in dataplane are (note the position of additional '0' at the end):
-            //   0x112233445566778809
-            //   0x112233445566778890
-            // To correctly insert that padding, the length of field must be known, but tools like
-            // nikss-ctl (and the nikss library) don't consume P4info.txt to have such knowledge.
-            // There is also a bug in (de)parser causing such fields to be deparsed incorrectly.
-            ::error(ErrorType::ERR_UNSUPPORTED_ON_TARGET,
-                    "%1%: fields wider than 64 bits must have a size multiple of 8 bits (1 byte) "
-                    "due to ambiguous padding in the LSB byte when the condition is not met",
-                    field);
-        }
-
         // wide values; read all bytes one by one.
         unsigned shift;
         if (alignment == 0)
@@ -611,20 +569,20 @@ void PnaStateTranslationVisitor::compileExtractField(const IR::Expression *expr,
         unsigned bytes = ROUNDUP(widthToExtract, 8);
         for (unsigned i = 0; i < bytes; i++) {
             builder->emitIndent();
+            builder->appendFormat("__builtin_memcpy(&");
             visit(expr);
-            builder->appendFormat(".%s[%d] = (", fieldName.c_str(), i);
-            bt->emit(builder);
-            builder->appendFormat(")((%s(%s, BYTES(%s) + %d) >> %d)", helper,
-                                  program->packetStartVar.c_str(), program->offsetVar.c_str(), i,
-                                  shift);
+            builder->appendFormat(".%s[%d], %s + ", fieldName, i, program->packetStartVar.c_str());
+            if ((i == bytes - 1) && (widthToExtract % 8 != 0)) builder->append("(");
+            builder->appendFormat("BYTES(%s) + %d >> %d", program->offsetVar.c_str(), i, shift);
 
             if ((i == bytes - 1) && (widthToExtract % 8 != 0)) {
                 builder->append(" & EBPF_MASK(");
                 bt->emit(builder);
                 builder->appendFormat(", %d)", widthToExtract % 8);
             }
-
-            builder->append(")");
+            builder->append(", sizeof(");
+            visit(expr);
+            builder->appendFormat(".%s[%d]))", fieldName, i);
             builder->endOfStatement(true);
         }
     }

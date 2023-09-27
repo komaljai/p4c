@@ -40,40 +40,40 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
                 goto reject;
             }
 
-            hdr->ipv4.version = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits)) >> 4) & EBPF_MASK(u8, 4));
+            __builtin_memcpy(&hdr->ipv4.version, pkt + (BYTES(ebpf_packetOffsetInBits) >> 4 & EBPF_MASK(u8, 4)), sizeof(hdr->ipv4.version));
             ebpf_packetOffsetInBits += 4;
 
-            hdr->ipv4.ihl = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits))) & EBPF_MASK(u8, 4));
+            __builtin_memcpy(&hdr->ipv4.ihl, pkt + (BYTES(ebpf_packetOffsetInBits) & EBPF_MASK(u8, 4)), sizeof(hdr->ipv4.ihl));
             ebpf_packetOffsetInBits += 4;
 
-            hdr->ipv4.diffserv = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.diffserv, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.diffserv));
             ebpf_packetOffsetInBits += 8;
 
-            hdr->ipv4.totalLen = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.totalLen, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.totalLen));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->ipv4.identification = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.identification, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.identification));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->ipv4.flags = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits)) >> 5) & EBPF_MASK(u8, 3));
+            __builtin_memcpy(&hdr->ipv4.flags, pkt + (BYTES(ebpf_packetOffsetInBits) >> 5 & EBPF_MASK(u8, 3)), sizeof(hdr->ipv4.flags));
             ebpf_packetOffsetInBits += 3;
 
-            hdr->ipv4.fragOffset = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))) & EBPF_MASK(u16, 13));
+            __builtin_memcpy(&hdr->ipv4.fragOffset, pkt + (BYTES(ebpf_packetOffsetInBits) & EBPF_MASK(u16, 13)), sizeof(hdr->ipv4.fragOffset));
             ebpf_packetOffsetInBits += 13;
 
-            hdr->ipv4.ttl = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.ttl, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.ttl));
             ebpf_packetOffsetInBits += 8;
 
-            hdr->ipv4.protocol = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.protocol, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.protocol));
             ebpf_packetOffsetInBits += 8;
 
-            hdr->ipv4.hdrChecksum = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.hdrChecksum, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.hdrChecksum));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->ipv4.srcAddr = (u32)((load_word(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.srcAddr, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.srcAddr));
             ebpf_packetOffsetInBits += 32;
 
-            hdr->ipv4.dstAddr = (u32)((load_word(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->ipv4.dstAddr, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->ipv4.dstAddr));
             ebpf_packetOffsetInBits += 32;
 
             hdr->ipv4.ebpf_valid = 1;
@@ -92,34 +92,34 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
                 goto reject;
             }
 
-            hdr->tcp.srcPort = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.srcPort, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.srcPort));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->tcp.dstPort = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.dstPort, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.dstPort));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->tcp.seqNo = (u32)((load_word(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.seqNo, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.seqNo));
             ebpf_packetOffsetInBits += 32;
 
-            hdr->tcp.ackNo = (u32)((load_word(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.ackNo, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.ackNo));
             ebpf_packetOffsetInBits += 32;
 
-            hdr->tcp.dataOffset = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits)) >> 4) & EBPF_MASK(u8, 4));
+            __builtin_memcpy(&hdr->tcp.dataOffset, pkt + (BYTES(ebpf_packetOffsetInBits) >> 4 & EBPF_MASK(u8, 4)), sizeof(hdr->tcp.dataOffset));
             ebpf_packetOffsetInBits += 4;
 
-            hdr->tcp.res = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits))) & EBPF_MASK(u8, 4));
+            __builtin_memcpy(&hdr->tcp.res, pkt + (BYTES(ebpf_packetOffsetInBits) & EBPF_MASK(u8, 4)), sizeof(hdr->tcp.res));
             ebpf_packetOffsetInBits += 4;
 
-            hdr->tcp.flags = (u8)((load_byte(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.flags, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.flags));
             ebpf_packetOffsetInBits += 8;
 
-            hdr->tcp.window = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.window, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.window));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->tcp.checksum = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.checksum, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.checksum));
             ebpf_packetOffsetInBits += 16;
 
-            hdr->tcp.urgentPtr = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->tcp.urgentPtr, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->tcp.urgentPtr));
             ebpf_packetOffsetInBits += 16;
 
             hdr->tcp.ebpf_valid = 1;
@@ -134,13 +134,13 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
                 goto reject;
             }
 
-            hdr->eth.dstAddr = (u64)((load_dword(pkt, BYTES(ebpf_packetOffsetInBits)) >> 16) & EBPF_MASK(u64, 48));
+            __builtin_memcpy(&hdr->eth.dstAddr, pkt + (BYTES(ebpf_packetOffsetInBits) >> 16 & EBPF_MASK(u64, 48)), sizeof(hdr->eth.dstAddr));
             ebpf_packetOffsetInBits += 48;
 
-            hdr->eth.srcAddr = (u64)((load_dword(pkt, BYTES(ebpf_packetOffsetInBits)) >> 16) & EBPF_MASK(u64, 48));
+            __builtin_memcpy(&hdr->eth.srcAddr, pkt + (BYTES(ebpf_packetOffsetInBits) >> 16 & EBPF_MASK(u64, 48)), sizeof(hdr->eth.srcAddr));
             ebpf_packetOffsetInBits += 48;
 
-            hdr->eth.etherType = (u16)((load_half(pkt, BYTES(ebpf_packetOffsetInBits))));
+            __builtin_memcpy(&hdr->eth.etherType, pkt + BYTES(ebpf_packetOffsetInBits), sizeof(hdr->eth.etherType));
             ebpf_packetOffsetInBits += 16;
 
             hdr->eth.ebpf_valid = 1;
