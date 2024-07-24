@@ -132,11 +132,15 @@ var hierarchy =
     [ "HalfOpenRange< Unit, Order >", "struct_half_open_range.html", null ],
     [ "hash_vector_base", "classhash__vector__base.html", [
       [ "hvec_map< P4::ProgramPoint, P4::Definitions * >", "classhvec__map.html", null ],
-      [ "hvec_map< const IR::Expression *, const P4::LocationSet * >", "classhvec__map.html", null ],
+      [ "hvec_map< const IR::IDeclaration *, def_info_t >", "classhvec__map.html", null ],
+      [ "hvec_map< const IR::Node *, hvec_set >", "classhvec__map.html", null ],
+      [ "hvec_map< P4::loc_t, const P4::LocationSet * >", "classhvec__map.html", null ],
       [ "hvec_map< const P4::BaseLocation *, const P4::ProgramPoints * >", "classhvec__map.html", null ],
       [ "hvec_map< const IR::IDeclaration *, P4::StorageLocation * >", "classhvec__map.html", null ],
       [ "hvec_map< cstring, const P4::StorageLocation * >", "classhvec__map.html", null ],
-      [ "hvec_map< KEY, VAL, HASH, PRED, ALLOC >", "classhvec__map.html", null ]
+      [ "hvec_set< const loc_t * >", "classhvec__set.html", null ],
+      [ "hvec_map< KEY, VAL, HASH, PRED, ALLOC >", "classhvec__map.html", null ],
+      [ "hvec_set< KEY, HASH, PRED, ALLOC >", "classhvec__set.html", null ]
     ] ],
     [ "hash_vector_base::internal", "classhash__vector__base.html#structhash__vector__base_1_1internal", null ],
     [ "hash_vector_base::lookup_cache", "structhash__vector__base_1_1lookup__cache.html", null ],
@@ -148,7 +152,8 @@ var hierarchy =
         [ "P4CContext", "class_p4_c_context.html", [
           [ "P4CContextWithOptions< OptionsType >", "class_p4_c_context_with_options.html", null ],
           [ "P4Tools::CompileContext< OptionsType >", "class_p4_tools_1_1_compile_context.html", null ]
-        ] ]
+        ] ],
+        [ "RefCheckContext", "class_ref_check_context.html", null ]
       ] ]
     ] ],
     [ "IHasDbPrint", "class_i_has_db_print.html", [
@@ -236,8 +241,8 @@ var hierarchy =
       [ "P4::ProgramPoint", "class_p4_1_1_program_point.html", null ],
       [ "P4::ProgramPoints", "class_p4_1_1_program_points.html", null ],
       [ "P4::SetOfLocations", "class_p4_1_1_set_of_locations.html", null ],
-      [ "P4::SimpleCallInfo< Callable, CallNode >", "class_p4_1_1_simple_call_info.html", null ],
-      [ "P4::SimpleInlineWorkList< Callable, CallNode, CallInfo >", "class_p4_1_1_simple_inline_work_list.html", null ],
+      [ "P4::SimpleCallInfo< CallableT, CallNodeT, CallExpressionT >", "class_p4_1_1_simple_call_info.html", null ],
+      [ "P4::SimpleInlineWorkList< CallInfo >", "class_p4_1_1_simple_inline_work_list.html", null ],
       [ "P4::StorageLocation", "class_p4_1_1_storage_location.html", [
         [ "P4::BaseLocation", "class_p4_1_1_base_location.html", null ],
         [ "P4::IndexedLocation", "class_p4_1_1_indexed_location.html", [
@@ -356,14 +361,12 @@ var hierarchy =
     [ "ordered_map< const IR::ConstructorCallExpression *, cstring >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Declaration_Instance *, P4::CallInfo * >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Declaration_Variable *, const cstring >", "classordered__map.html", null ],
-    [ "ordered_map< const IR::IDeclaration *, def_info_t >", "classordered__map.html", null ],
     [ "ordered_map< const IR::IDeclaration *, unsigned int >", "classordered__map.html", null ],
     [ "ordered_map< const IR::ITypeVar *, const IR::Type * >", "classordered__map.html", null ],
     [ "ordered_map< const IR::MethodCallExpression *, P4::FunctionSpecialization * >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Node *, block_t >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Node *, const IR::CompileTimeValue * >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Node *, const IR::P4Action * >", "classordered__map.html", null ],
-    [ "ordered_map< const IR::Node *, ordered_set >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Node *, P4::SpecializationInfo * >", "classordered__map.html", null ],
     [ "ordered_map< const IR::Node *, std::pair< gress_t, block_t > >", "classordered__map.html", null ],
     [ "ordered_map< const IR::P4Action *, const IR::P4Action * >", "classordered__map.html", null ],
@@ -378,7 +381,6 @@ var hierarchy =
     [ "ordered_map< const IR::Type_Specialized *, P4::TypeSpecialization * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, const IR::Declaration_Instance * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, const IR::Declaration_Variable * >", "classordered__map.html", null ],
-    [ "ordered_map< cstring, const IR::IDeclaration * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, const IR::Member * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, const IR::P4Action * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, const IR::P4Control * >", "classordered__map.html", null ],
@@ -395,9 +397,6 @@ var hierarchy =
     [ "ordered_map< cstring, const TestObject * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, cstring >", "classordered__map.html", null ],
     [ "ordered_map< cstring, enum InternalTableType >", "classordered__map.html", null ],
-    [ "ordered_map< cstring, IJson * >", "classordered__map.html", [
-      [ "Util::JsonObject", "class_util_1_1_json_object.html", null ]
-    ] ],
     [ "ordered_map< cstring, int >", "classordered__map.html", null ],
     [ "ordered_map< cstring, IR::ParameterList * >", "classordered__map.html", null ],
     [ "ordered_map< cstring, ordered_map< uint, std::list< std::pair< std::vector< cstring >, MethodImpl > > > >", "classordered__map.html", null ],
@@ -426,7 +425,6 @@ var hierarchy =
     [ "ordered_set< BMV2::CFG::Node * >", "classordered__set.html", null ],
     [ "ordered_set< const IR::FieldList * >", "classordered__set.html", null ],
     [ "ordered_set< const IR::Parameter * >", "classordered__set.html", null ],
-    [ "ordered_set< const loc_t * >", "classordered__set.html", null ],
     [ "ordered_set< const P4::StorageLocation * >", "classordered__set.html", null ],
     [ "ordered_set< cstring >", "classordered__set.html", null ],
     [ "P4::AbstractParserDriver", "class_p4_1_1_abstract_parser_driver.html", [
@@ -576,6 +574,7 @@ var hierarchy =
         [ "P4::AbstractInliner< InlineList, InlineWorkList >", "class_p4_1_1_abstract_inliner.html", null ],
         [ "P4::ComputeDefUse", "class_p4_1_1_compute_def_use.html", null ],
         [ "P4::ComputeDefUse::SetupJoinPoints", "class_p4_1_1_compute_def_use_1_1_setup_join_points.html", null ],
+        [ "P4::ConstantTypeSubstitution", "class_p4_1_1_constant_type_substitution.html", null ],
         [ "P4::CreateStructInitializers", "class_p4_1_1_create_struct_initializers.html", null ],
         [ "P4::Deprecated", "class_p4_1_1_deprecated.html", null ],
         [ "P4::DiscoverActionsInlining", "class_p4_1_1_discover_actions_inlining.html", null ],
@@ -595,6 +594,7 @@ var hierarchy =
         [ "P4::FindGlobalActionUses", "class_p4_1_1_find_global_action_uses.html", null ],
         [ "P4::FindRepeatedActionUses", "class_p4_1_1_find_repeated_action_uses.html", null ],
         [ "P4::FindSpecializations", "class_p4_1_1_find_specializations.html", null ],
+        [ "P4::HasTableApply", "class_p4_1_1_has_table_apply.html", null ],
         [ "P4::InstantiateDirectCalls", "class_p4_1_1_instantiate_direct_calls.html", null ],
         [ "P4::KeySideEffect", "class_p4_1_1_key_side_effect.html", [
           [ "DPDK::CopyMatchKeysToSingleStruct", "class_d_p_d_k_1_1_copy_match_keys_to_single_struct.html", null ]
@@ -605,8 +605,7 @@ var hierarchy =
         [ "P4::RenameSymbols", "class_p4_1_1_rename_symbols.html", null ],
         [ "P4::ResolveReferences", "class_p4_1_1_resolve_references.html", null ],
         [ "P4::SubstituteParameters", "class_p4_1_1_substitute_parameters.html", null ],
-        [ "P4::TablesInActions", "class_p4_1_1_tables_in_actions.html", null ],
-        [ "P4::TablesInKeys", "class_p4_1_1_tables_in_keys.html", null ],
+        [ "P4::ToP4", "class_p4_1_1_to_p4.html", null ],
         [ "P4::TypeInference", "class_p4_1_1_type_inference.html", null ],
         [ "P4::UnrollLoops", "class_p4_1_1_unroll_loops.html", null ]
       ] ]
@@ -642,6 +641,7 @@ var hierarchy =
       [ "P4::IsValid", "class_p4_1_1_is_valid.html", null ],
       [ "P4::OrPolicy", "class_p4_1_1_or_policy.html", null ]
     ] ],
+    [ "P4::loc_t", "struct_p4_1_1loc__t.html", null ],
     [ "P4::NameGenerator", "class_p4_1_1_name_generator.html", [
       [ "P4::MinimalNameGenerator", "class_p4_1_1_minimal_name_generator.html", null ],
       [ "P4::ReferenceMap", "class_p4_1_1_reference_map.html", null ]
@@ -686,6 +686,8 @@ var hierarchy =
     [ "P4::TableInsertions", "namespace_p4.html#class_p4_1_1_table_insertions", null ],
     [ "P4::TypeInference::Comparison", "class_p4_1_1_type_inference.html#struct_p4_1_1_type_inference_1_1_comparison", null ],
     [ "P4::TypeUnification", "class_p4_1_1_type_unification.html", null ],
+    [ "P4::UnrollLoops::loop_bounds_t", "class_p4_1_1_unroll_loops.html#struct_p4_1_1_unroll_loops_1_1loop__bounds__t", null ],
+    [ "P4::UnrollLoops::Policy", "struct_p4_1_1_unroll_loops_1_1_policy.html", null ],
     [ "P4::VisitedKey", "struct_p4_1_1_visited_key.html", null ],
     [ "P4CConfiguration", "class_p4_c_configuration.html", [
       [ "DefaultP4CConfiguration", "class_default_p4_c_configuration.html", [
@@ -744,8 +746,10 @@ var hierarchy =
     [ "P4Tools::P4Testgen::Continuation::Return", "struct_p4_tools_1_1_p4_testgen_1_1_continuation_1_1_return.html", null ],
     [ "P4Tools::P4Testgen::EBPF::EBPFConstants", "class_p4_tools_1_1_p4_testgen_1_1_e_b_p_f_1_1_e_b_p_f_constants.html", null ],
     [ "P4Tools::P4Testgen::ExecutionState::StackFrame", "class_p4_tools_1_1_p4_testgen_1_1_execution_state_1_1_stack_frame.html", null ],
+    [ "P4Tools::P4Testgen::ExprStepper::ExternMethodImpls< StepperType >", "class_p4_tools_1_1_p4_testgen_1_1_expr_stepper_1_1_extern_method_impls.html", null ],
+    [ "P4Tools::P4Testgen::ExprStepper::ExternMethodImpls< P4Tools::P4Testgen::ExprStepper >", "class_p4_tools_1_1_p4_testgen_1_1_expr_stepper_1_1_extern_method_impls.html", null ],
     [ "P4Tools::P4Testgen::ExprStepper::PacketCursorAdvanceInfo", "class_p4_tools_1_1_p4_testgen_1_1_expr_stepper.html#struct_p4_tools_1_1_p4_testgen_1_1_expr_stepper_1_1_packet_cursor_advance_info", null ],
-    [ "P4Tools::P4Testgen::ExternMethodImpls", "class_p4_tools_1_1_p4_testgen_1_1_extern_method_impls.html", null ],
+    [ "P4Tools::P4Testgen::ExternInfo", "class_p4_tools_1_1_p4_testgen_1_1_extern_info.html", null ],
     [ "P4Tools::P4Testgen::FinalState", "class_p4_tools_1_1_p4_testgen_1_1_final_state.html", null ],
     [ "P4Tools::P4Testgen::PacketVars", "class_p4_tools_1_1_p4_testgen_1_1_packet_vars.html", null ],
     [ "P4Tools::P4Testgen::Pna::PnaConstants", "class_p4_tools_1_1_p4_testgen_1_1_pna_1_1_pna_constants.html", null ],
@@ -855,7 +859,10 @@ var hierarchy =
         [ "EBPF::EBPFObject", "class_e_b_p_f_1_1_e_b_p_f_object.html", [
           [ "EBPF::EBPFChecksumPSA", "class_e_b_p_f_1_1_e_b_p_f_checksum_p_s_a.html", [
             [ "EBPF::EBPFHashPSA", "class_e_b_p_f_1_1_e_b_p_f_hash_p_s_a.html", null ],
-            [ "EBPF::EBPFInternetChecksumPSA", "class_e_b_p_f_1_1_e_b_p_f_internet_checksum_p_s_a.html", null ]
+            [ "EBPF::EBPFInternetChecksumPSA", "class_e_b_p_f_1_1_e_b_p_f_internet_checksum_p_s_a.html", null ],
+            [ "TC::EBPFChecksumPNA", "class_t_c_1_1_e_b_p_f_checksum_p_n_a.html", [
+              [ "TC::EBPFInternetChecksumPNA", "class_t_c_1_1_e_b_p_f_internet_checksum_p_n_a.html", null ]
+            ] ]
           ] ],
           [ "EBPF::EBPFControl", "class_e_b_p_f_1_1_e_b_p_f_control.html", [
             [ "EBPF::EBPFControlPSA", "class_e_b_p_f_1_1_e_b_p_f_control_p_s_a.html", [
@@ -888,7 +895,8 @@ var hierarchy =
                 [ "TC::CRC32ChecksumAlgorithmPNA", "class_t_c_1_1_c_r_c32_checksum_algorithm_p_n_a.html", null ]
               ] ]
             ] ],
-            [ "EBPF::InternetChecksumAlgorithm", "class_e_b_p_f_1_1_internet_checksum_algorithm.html", null ]
+            [ "EBPF::InternetChecksumAlgorithm", "class_e_b_p_f_1_1_internet_checksum_algorithm.html", null ],
+            [ "TC::InternetChecksumAlgorithmPNA", "class_t_c_1_1_internet_checksum_algorithm_p_n_a.html", null ]
           ] ],
           [ "EBPF::EBPFMethodDeclaration", "class_e_b_p_f_1_1_e_b_p_f_method_declaration.html", null ],
           [ "EBPF::EBPFParser", "class_e_b_p_f_1_1_e_b_p_f_parser.html", [
@@ -1127,6 +1135,8 @@ var hierarchy =
     [ "std::hash< ClosedRange< Unit, Order > >", "structstd_1_1hash_3_01_closed_range_3_01_unit_00_01_order_01_4_01_4.html", null ],
     [ "std::hash< cstring >", "structstd_1_1hash_3_01cstring_01_4.html", null ],
     [ "std::hash< HalfOpenRange< Unit, Order > >", "structstd_1_1hash_3_01_half_open_range_3_01_unit_00_01_order_01_4_01_4.html", null ],
+    [ "std::hash< P4::ComputeDefUse::loc_t >", "structstd_1_1hash_3_01_p4_1_1_compute_def_use_1_1loc__t_01_4.html", null ],
+    [ "std::hash< P4::loc_t >", "structstd_1_1hash_3_01_p4_1_1loc__t_01_4.html", null ],
     [ "std::hash< P4::ProgramPoint >", "structstd_1_1hash_3_01_p4_1_1_program_point_01_4.html", null ],
     [ "std::hash< std::pair< T1, T2 > >", "structstd_1_1hash_3_01std_1_1pair_3_01_t1_00_01_t2_01_4_01_4.html", null ],
     [ "std::hash< std::tuple< Types... > >", "structstd_1_1hash_3_01std_1_1tuple_3_01_types_8_8_8_01_4_01_4.html", null ],
@@ -1184,6 +1194,11 @@ var hierarchy =
       [ "JsonVector", "class_json_vector.html", null ],
       [ "Util::JsonArray", "class_util_1_1_json_array.html", null ],
       [ "safe_vector< T, Alloc >", "classsafe__vector.html", null ]
+    ] ],
+    [ "string_map< V >", "classstring__map.html", null ],
+    [ "string_map< const IR::IDeclaration * >", "classstring__map.html", null ],
+    [ "string_map< IJson * >", "classstring__map.html", [
+      [ "Util::JsonObject", "class_util_1_1_json_object.html", null ]
     ] ],
     [ "StringRef", "struct_string_ref.html", null ],
     [ "StringRef::Split", "class_string_ref_1_1_split.html", null ],
@@ -1321,6 +1336,7 @@ var hierarchy =
     [ "Util::Hasher< ClosedRange< Unit, Order > >", "struct_util_1_1_hasher_3_01_closed_range_3_01_unit_00_01_order_01_4_01_4.html", null ],
     [ "Util::Hasher< cstring >", "struct_util_1_1_hasher_3_01cstring_01_4.html", null ],
     [ "Util::Hasher< HalfOpenRange< Unit, Order > >", "struct_util_1_1_hasher_3_01_half_open_range_3_01_unit_00_01_order_01_4_01_4.html", null ],
+    [ "Util::Hasher< IR::ID >", "struct_util_1_1_hasher_3_01_i_r_1_1_i_d_01_4.html", null ],
     [ "Util::Hasher< P4::ProgramPoint >", "struct_util_1_1_hasher_3_01_p4_1_1_program_point_01_4.html", null ],
     [ "Util::Hasher< std::pair< T1, T2 > >", "struct_util_1_1_hasher_3_01std_1_1pair_3_01_t1_00_01_t2_01_4_01_4.html", null ],
     [ "Util::Hasher< std::shared_ptr< T > >", "struct_util_1_1_hasher_3_01std_1_1shared__ptr_3_01_t_01_4_01_4.html", null ],
@@ -1778,6 +1794,7 @@ var hierarchy =
         [ "P4::CloneConstants", "class_p4_1_1_clone_constants.html", null ],
         [ "P4::CloneExpressions", "class_p4_1_1_clone_expressions.html", null ],
         [ "P4::CloneVariableDeclarations", "class_p4_1_1_clone_variable_declarations.html", null ],
+        [ "P4::ConstantTypeSubstitution", "class_p4_1_1_constant_type_substitution.html", null ],
         [ "P4::CopySrcInfo", "class_p4_1_1_copy_src_info.html", null ],
         [ "P4::CreateBuiltins", "class_p4_1_1_create_builtins.html", null ],
         [ "P4::CreateSpecializedTypes", "class_p4_1_1_create_specialized_types.html", null ],
