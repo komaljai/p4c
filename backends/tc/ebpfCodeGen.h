@@ -104,6 +104,7 @@ class PNAArchTC : public PNAEbpfGenerator {
     void emitParser(EBPF::CodeBuilder *builder) const override;
     void emitHeader(EBPF::CodeBuilder *builder) const override;
     void emitInstances(EBPF::CodeBuilder *builder) const override;
+    void emitGlobalFunctions(EBPF::CodeBuilder *builder) const;
 };
 
 class TCIngressPipelinePNA : public EBPF::TCIngressPipeline {

@@ -41,7 +41,7 @@ static __always_inline int process(struct __sk_buff *skb, struct my_ingress_head
                 crc16_update(&ingress_h_reg, (u8 *) &(hdr->crc.f4), 4, 0xA001);
             }
                         hdr->crc.crc = /* h_0.get_hash({hdr->crc.f1, hdr->crc.f2, hdr->crc.f3, hdr->crc.f4}) */
-crc16_finalize(ingress_h_reg);
+crc16_finalize(ingress_h_reg)
         }
     }
     {

@@ -77,7 +77,7 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
 
 ;
             u8 select_0;
-            select_0 = hdr->ipv4.protocol;
+            select_0 = hdr->ipv4.protocol
             if (select_0 == 6)goto parse_tcp;
             if ((select_0 & 0x0) == (0x0 & 0x0))goto accept;
             else goto reject;
@@ -148,7 +148,7 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
 
 ;
             u16 select_1;
-            select_1 = hdr->eth.etherType;
+            select_1 = hdr->eth.etherType
             if (select_1 == 0x800)goto parse_ipv4;
             if ((select_1 & 0x0) == (0x0 & 0x0))goto accept;
             else goto reject;

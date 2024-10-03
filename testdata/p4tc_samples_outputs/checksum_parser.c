@@ -109,14 +109,14 @@ struct p4tc_ext_csum_params ck_0_csum = {};
 ;
             tmp_0 = /* ck_0.get() */
 (u16) bpf_p4tc_ext_csum_16bit_complement_get(&ck_0_csum, sizeof(ck_0_csum));
-;/* verify(hdr->ipv4.hdrChecksum == tmp_0, BadIPv4HeaderChecksum) */
+/* verify(hdr->ipv4.hdrChecksum == tmp_0, BadIPv4HeaderChecksum) */
             if (!(hdr->ipv4.hdrChecksum == tmp_0)) {
                 ebpf_errorCode = BadIPv4HeaderChecksum;
                 goto reject;
             }
 ;
             hdr->ipv4.hdrChecksum = /* ck_0.get_state() */
-ck_0_state;             goto accept;
+ck_0_state             goto accept;
         }
         start: {
 /* extract(hdr->ethernet) */
@@ -140,7 +140,7 @@ ck_0_state;             goto accept;
 
 ;
             u16 select_0;
-            select_0 = hdr->ethernet.etherType;
+            select_0 = hdr->ethernet.etherType
             if (select_0 == 0x800)goto parse_ipv4;
             if ((select_0 & 0x0) == (0x0 & 0x0))goto reject;
             else goto reject;

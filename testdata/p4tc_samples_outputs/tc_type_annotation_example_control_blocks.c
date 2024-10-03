@@ -110,7 +110,7 @@ if (/* hdr->ipv4.isValid() */
                                 {
 /* drop_packet() */
                                     drop_packet();
-                                                                        hdr->ipv4.dstAddr = value->u.MainControlImpl_default_route_drop.ipv4addr;
+                                                                        hdr->ipv4.dstAddr = value->u.MainControlImpl_default_route_drop.ipv4addr
                                 }
                                 break;
                             case MAINCONTROLIMPL_IPV4_TBL_1_ACT__NOACTION: 
