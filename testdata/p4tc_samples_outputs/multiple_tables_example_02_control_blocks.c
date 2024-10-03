@@ -243,7 +243,7 @@ if (/* hdr->ipv4.isValid() */
                         switch (value->action) {
                             case MAINCONTROLIMPL_IPV4_TBL_1_ACT_MAINCONTROLIMPL_NEXT_HOP: 
                                 {
-                                    hdr->ipv4.version = 1;
+                                    hdr->ipv4.version = 1
                                     /* send_to_port(value->u.MainControlImpl_next_hop.vport) */
                                     compiler_meta__->drop = false;
                                     send_to_port(value->u.MainControlImpl_next_hop.vport);
@@ -296,7 +296,7 @@ if (hdr->ipv4.protocol != 6) {
                         switch (value->action) {
                             case MAINCONTROLIMPL_IPV4_TBL_2_ACT_MAINCONTROLIMPL_NEXT_HOP: 
                                 {
-                                    hdr->ipv4.version = 1;
+                                    hdr->ipv4.version = 1
                                     /* send_to_port(value->u.MainControlImpl_next_hop.vport) */
                                     compiler_meta__->drop = false;
                                     send_to_port(value->u.MainControlImpl_next_hop.vport);
@@ -536,7 +536,7 @@ if (hdr->ipv4.protocol == 6 || ((hdr->ipv4.version > 1) && (hdr->ipv4.ihl <= 2))
                         switch (value->action) {
                             case MAINCONTROLIMPL_SET_ALL_OPTIONS_ACT_MAINCONTROLIMPL_NEXT_HOP: 
                                 {
-                                    hdr->ipv4.version = 1;
+                                    hdr->ipv4.version = 1
                                     /* send_to_port(value->u.MainControlImpl_next_hop.vport) */
                                     compiler_meta__->drop = false;
                                     send_to_port(value->u.MainControlImpl_next_hop.vport);

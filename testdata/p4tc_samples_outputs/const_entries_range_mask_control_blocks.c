@@ -82,12 +82,12 @@ static __always_inline int process(struct __sk_buff *skb, struct Header_t *h, st
                     switch (value->action) {
                         case MAINCONTROLIMPL_T_RANGE_ACT_MAINCONTROLIMPL_A: 
                             {
-                                h->h.e = 0;
+                                h->h.e = 0
                             }
                             break;
                         case MAINCONTROLIMPL_T_RANGE_ACT_MAINCONTROLIMPL_A_WITH_CONTROL_PARAMS: 
                             {
-                                h->h.t = value->u.MainControlImpl_a_with_control_params.x;
+                                h->h.t = value->u.MainControlImpl_a_with_control_params.x
                             }
                             break;
                         case MAINCONTROLIMPL_T_RANGE_ACT_NOACTION: 

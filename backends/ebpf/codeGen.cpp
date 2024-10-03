@@ -351,7 +351,10 @@ void CodeGenInspector::emitAssignStatement(const IR::Type *ltype, const IR::Expr
         width = scalar->implementationWidthInBits();
         memcpy = !EBPFScalarType::generatesScalar(width);
     }
-
+    if (builder->target->name == "P4TC") {
+        emitTCAssignmentEndianessConversion(lexpr, rexpr, lpath, memcpy, scalar->bytesRequired());
+        return;
+    }
     builder->emitIndent();
     if (memcpy) {
         builder->append("__builtin_memcpy(&");
@@ -373,11 +376,7 @@ void CodeGenInspector::emitAssignStatement(const IR::Type *ltype, const IR::Expr
             builder->append(lpath);
         }
         builder->append(" = ");
-        if (builder->target->name == "P4TC") {
-            emitTCAssignmentEndianessConversion(lexpr, rexpr);
-        } else {
-            visit(rexpr);
-        }
+        visit(rexpr);
     }
     builder->endOfStatement();
 }
@@ -492,7 +491,9 @@ void CodeGenInspector::emitAndConvertByteOrder(const IR::Expression *expr, cstri
     }
     unsigned shift = loadSize - widthToEmit;
     builder->appendFormat("%s(", emit);
-    visit(expr);
+    bool primitive = isPrimitive(expr);
+    if (primitive) { visit(expr); 
+    } else { getBitAlignment(expr); }
     if (shift != 0 && byte_order == "HOST") builder->appendFormat(" << %d", shift);
     builder->append(")");
 }
@@ -512,7 +513,9 @@ void CodeGenInspector::emitTCBinaryOperation(const IR::Operation_Binary *b, bool
         rByteOrder = tcTarget->getByteOrder(typeMap, action, rexpr);
     }
     if (lByteOrder == rByteOrder) {
-        visit(lexpr);
+        bool primitive = isPrimitive(lexpr);
+        if (primitive) { visit(lexpr); 
+        } else { getBitAlignment(lexpr); }
         if (isScalar) {
             builder->spc();
             builder->append(stringop);
@@ -521,7 +524,9 @@ void CodeGenInspector::emitTCBinaryOperation(const IR::Operation_Binary *b, bool
             builder->append(", &");
         }
         if (!b->is<IR::Operation_Relation>()) expressionPrecedence = b->getPrecedence() + 1;
-        visit(rexpr);
+        primitive = isPrimitive(rexpr);
+        if (primitive) { visit(rexpr); 
+        } else { getBitAlignment(rexpr); }
         return;
     }
     if (lByteOrder == "NETWORK") {
@@ -542,14 +547,18 @@ void CodeGenInspector::emitTCBinaryOperation(const IR::Operation_Binary *b, bool
             builder->append(", &");
         }
         if (!b->is<IR::Operation_Relation>()) expressionPrecedence = b->getPrecedence() + 1;
-        visit(rexpr);
+        bool primitive = isPrimitive(rexpr);
+        if (primitive) { visit(rexpr); 
+        } else { getBitAlignment(rexpr); }
         return;
     } else if (rByteOrder == "NETWORK") {
         // ConvertRight
         auto ftype = typeMap->getType(rexpr);
         auto et = EBPFTypeFactory::instance->create(ftype);
         unsigned width = dynamic_cast<IHasWidth *>(et)->widthInBits();
-        visit(lexpr);
+        bool primitive = isPrimitive(lexpr);
+        if (primitive) { visit(lexpr); 
+        } else { getBitAlignment(lexpr); }
         if (isScalar) {
             builder->spc();
             builder->append(stringop);
@@ -568,46 +577,183 @@ void CodeGenInspector::emitTCBinaryOperation(const IR::Operation_Binary *b, bool
 }
 
 void CodeGenInspector::emitTCAssignmentEndianessConversion(const IR::Expression *lexpr,
-                                                           const IR::Expression *rexpr) {
-    auto action = findContext<IR::P4Action>();
-    auto b = dynamic_cast<const P4TCTarget *>(builder->target);
-    cstring lByteOrder = "HOST"_cs, rByteOrder = "HOST"_cs;
-    if (lexpr) {
-        lByteOrder = b->getByteOrder(typeMap, action, lexpr);
-    }
-    if (rexpr) {
-        rByteOrder = b->getByteOrder(typeMap, action, rexpr);
-    }
-    if (lByteOrder == rByteOrder) {
+                                                           const IR::Expression *rexpr,
+                                                           cstring lpath, bool memcpy,
+                                                           unsigned width) {
+    builder->emitIndent();
+    if (memcpy) {
+        builder->append("__builtin_memcpy(&");
+        if (lexpr != nullptr) {
+            visit(lexpr);
+        } else {
+            builder->append(lpath);
+        }
+        builder->append(", &");
+        if (rexpr->is<IR::Constant>()) {
+            builder->appendFormat("(u8[%u])", width);
+        }
         visit(rexpr);
-        return;
+        builder->appendFormat(", %d)", width);
+    } else {
+        if (lexpr != nullptr) {
+            bool primitive = isPrimitive(lexpr);
+            if (primitive) { 
+                visit(lexpr); 
+            } else { 
+                storeBitAlignment(lexpr, rexpr);
+                return; 
+            }
+        } else {
+            builder->append(lpath);
+        }
+        builder->append(" = ");
+        auto action = findContext<IR::P4Action>();
+        auto b = dynamic_cast<const P4TCTarget *>(builder->target);
+        cstring lByteOrder = "HOST"_cs, rByteOrder = "HOST"_cs;
+        if (lexpr) {
+            lByteOrder = b->getByteOrder(typeMap, action, lexpr);
+        }
+        if (rexpr) {
+            rByteOrder = b->getByteOrder(typeMap, action, rexpr);
+        }
+        auto ftype = typeMap->getType(rexpr);
+        auto et = EBPFTypeFactory::instance->create(ftype);
+        unsigned width = dynamic_cast<IHasWidth *>(et)->widthInBits();
+        // TODO: 
+        if (lByteOrder == rByteOrder) {
+            bool primitive = isPrimitive(rexpr);
+            if (primitive) { visit(rexpr); 
+            } else { getBitAlignment(rexpr); }
+            return;
+        }
+        if (width <= 8) {
+            visit(rexpr);
+            return;
+        }
+        if (rByteOrder == "NETWORK") {
+            // If left side of assignment is not annotated field i.e host endian and right expression
+            // is annotated field i.e network endian, we need to convert rexp to host order.
+            // Example -
+            //     select_0 = hdr.ipv4.diffserv
+            //     select_0 = bntoh(hdr.ipv4.diffserv)
+            //
+            emitAndConvertByteOrder(rexpr, "HOST"_cs);
+        }
+        if (lByteOrder == "NETWORK") {
+            // If left side of assignment is annotated field i.e network endian, we need to convert
+            // right expression to network order.
+            // Example -
+            //     hdr.opv4.diffserv = 0x1;
+            //     hdr.opv4.diffserv = bhton(0x1)
+            //
+            emitAndConvertByteOrder(rexpr, "NETWORK"_cs);
+        }
     }
-    auto ftype = typeMap->getType(rexpr);
-    auto et = EBPFTypeFactory::instance->create(ftype);
-    unsigned width = dynamic_cast<IHasWidth *>(et)->widthInBits();
-    if (width <= 8) {
-        visit(rexpr);
-        return;
-    }
-    if (rByteOrder == "NETWORK") {
-        // If left side of assignment is not annotated field i.e host endian and right expression
-        // is annotated field i.e network endian, we need to convert rexp to host order.
-        // Example -
-        //     select_0 = hdr.ipv4.diffserv
-        //     select_0 = bntoh(hdr.ipv4.diffserv)
-        //
-        emitAndConvertByteOrder(rexpr, "HOST"_cs);
-    }
-    if (lByteOrder == "NETWORK") {
-        // If left side of assignment is annotated field i.e network endian, we need to convert
-        // right expression to network order.
-        // Example -
-        //     hdr.opv4.diffserv = 0x1;
-        //     hdr.opv4.diffserv = bhton(0x1)
-        //
-        emitAndConvertByteOrder(rexpr, "NETWORK"_cs);
-    }
+    builder->endOfStatement();
+    return;
+}
 
+bool CodeGenInspector::isPrimitive(const IR::Expression* expression) {
+    if (!expression->is<IR::Member>()) { return true; }
+    auto ftype = typeMap->getType(expression);
+    if (!ftype) { return true; }
+    auto tcTarget = dynamic_cast<const P4TCTarget *>(builder->target);
+    auto ebpfType = EBPFTypeFactory::instance->create(ftype);
+    EBPFScalarType *scalar = nullptr;
+    if (ebpfType->is<EBPFScalarType>()) {
+        scalar = ebpfType->to<EBPFScalarType>();
+        bool isPrimitive = tcTarget->isPrimitiveByteAligned(scalar->implementationWidthInBits());
+        if (!isPrimitive) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void CodeGenInspector::getBitAlignment(const IR::Expression* expression) {
+    auto ftype = typeMap->getType(expression);
+    if (!ftype) { return; }
+    auto ebpfType = EBPFTypeFactory::instance->create(ftype);
+    EBPFScalarType *scalar = nullptr;
+    if (ebpfType->is<EBPFScalarType>()) {
+        scalar = ebpfType->to<EBPFScalarType>();
+        if (scalar->implementationWidthInBits() < 32) {
+            builder->append("getPrimitive32(");
+            visit(expression);
+            builder->append(", ");
+        } else {
+            builder->append("getPrimitive64(");
+            visit(expression);
+            builder->appendFormat(", %d", scalar->implementationWidthInBits());
+        }
+        builder->append(")");
+        return;
+    }
+    return;
+}
+
+void CodeGenInspector::storeBitAlignment(const IR::Expression* lexpr, const IR::Expression* rexpr) {
+    auto tcTarget = dynamic_cast<const P4TCTarget *>(builder->target);
+    auto ftype = typeMap->getType(lexpr);
+    if (!ftype) { return;}
+    auto ebpfType = EBPFTypeFactory::instance->create(ftype);
+    EBPFScalarType *scalar = nullptr;
+    if (ebpfType->is<EBPFScalarType>()) {
+        scalar = ebpfType->to<EBPFScalarType>();
+        if (scalar->implementationWidthInBits() < 32) {
+            builder->append("storePrimitive32(&");
+            visit(lexpr);
+            builder->append(", ");
+        } else {
+            builder->append("storePrimitive64(&");
+            visit(lexpr);
+            builder->appendFormat(", %d, (" , scalar->implementationWidthInBits());
+        }
+        auto action = findContext<IR::P4Action>();
+        cstring lByteOrder = "HOST"_cs, rByteOrder = "HOST"_cs;
+        if (lexpr) {
+            lByteOrder = tcTarget->getByteOrder(typeMap, action, lexpr);
+        }
+        if (rexpr) {
+            rByteOrder = tcTarget->getByteOrder(typeMap, action, rexpr);
+        }
+        auto ftype = typeMap->getType(rexpr);
+        auto et = EBPFTypeFactory::instance->create(ftype);
+        unsigned width = dynamic_cast<IHasWidth *>(et)->widthInBits();
+        // TODO: 
+        if (lByteOrder == rByteOrder) {
+            bool primitive = isPrimitive(rexpr);
+            if (primitive) { visit(rexpr); 
+            } else { getBitAlignment(rexpr); }
+            builder->append("));");
+            return;
+        }
+        if (width <= 8) {
+            visit(rexpr);
+            builder->append("));");
+            return;
+        }
+        if (rByteOrder == "NETWORK") {
+            // If left side of assignment is not annotated field i.e host endian and right expression
+            // is annotated field i.e network endian, we need to convert rexp to host order.
+            // Example -
+            //     select_0 = hdr.ipv4.diffserv
+            //     select_0 = bntoh(hdr.ipv4.diffserv)
+            //
+            emitAndConvertByteOrder(rexpr, "HOST"_cs);
+        }
+        if (lByteOrder == "NETWORK") {
+            // If left side of assignment is annotated field i.e network endian, we need to convert
+            // right expression to network order.
+            // Example -
+            //     hdr.opv4.diffserv = 0x1;
+            //     hdr.opv4.diffserv = bhton(0x1)
+            //
+            emitAndConvertByteOrder(rexpr, "NETWORK"_cs);
+        }
+        builder->append("));");
+        return;
+    }
     return;
 }
 

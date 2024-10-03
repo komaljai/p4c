@@ -212,6 +212,42 @@ void PNAArchTC::emitInstances(EBPF::CodeBuilder *builder) const {
     builder->newline();
 }
 
+void PNAArchTC::emitGlobalFunctions(EBPF::CodeBuilder *builder) const {
+    const char *code = "u32 getPrimitive32(u8 *a, int size) {\n"
+        "   return  ((a[2]<<16) | (a[1] << 8) | a[0]);\n"
+        "}\n"
+        "u64 getPrimitive64(u8 *a, int size) {\n"
+        "   if(size < 40) {\n"
+        "       return  ((a[4] << 32) | (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0]);\n" 
+        "   } else {\n"
+        "       if(size < 48) {\n"
+        "           return  ((a[5] << 40) | (a[4] << 32) | (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0]);\n"
+        "       } else {\n"
+        "           return  ((a[6] << 48) | (a[5] << 40) | (a[4] << 32) | (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0]);\n"
+        "       }\n"
+        "   }\n"
+        "}\n"
+        "void storePrimitive32(u8 *a, u32 value) {\n"
+        "   a[0] = (u8)(value);\n"
+        "   a[1] = (u8)(value >> 8);\n"
+        "   a[2] = (u8)(value >> 16);\n"
+        "}\n"
+        "void storePrimitive64(u8 *a, int size, u64 value) {\n"
+        "   a[0] = (u8)(value);\n"
+        "   a[1] = (u8)(value >> 8);\n"
+        "   a[2] = (u8)(value >> 16);\n"
+        "   a[3] = (u8)(value >> 24);\n"
+        "   a[4] = (u8)(value >> 32);\n"
+        "   if (size < 48) {\n"
+        "       a[5] = (u8)(value >> 40);\n"
+        "   }\n"
+        "   if (size < 56){\n"
+        "       a[6] = (u8)(value >> 48);\n"
+        "   }\n"
+        "}\n";
+    builder->appendLine(code);
+}
+
 void PNAArchTC::emitParser(EBPF::CodeBuilder *builder) const {
     /**
      * Structure of a C Parser program for PNA
@@ -248,6 +284,7 @@ void PNAArchTC::emitHeader(EBPF::CodeBuilder *builder) const {
     emitP4TCFilterFields(builder);
     //  BPF map definitions.
     emitInstances(builder);
+    emitGlobalFunctions(builder);
     EBPFHashAlgorithmTypeFactoryPNA::instance()->emitGlobals(builder);
 }
 

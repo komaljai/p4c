@@ -26,8 +26,8 @@ struct __attribute__((__packed__)) MainControlImpl_ipv4_tbl_1_value {
         struct {
         } MainControlImpl_next_hop;
         struct __attribute__((__packed__)) {
-            u64 dmac;
-            u64 smac;
+            u8 dmac[6];
+            u8 smac[6];
         } MainControlImpl_send_nh;
         struct {
         } MainControlImpl_dflt_route_drop;
@@ -114,8 +114,8 @@ if (/* hdr->ipv4.isValid() */
                                 break;
                             case MAINCONTROLIMPL_IPV4_TBL_1_ACT_MAINCONTROLIMPL_SEND_NH: 
                                 {
-                                    hdr->ethernet.srcAddr = bpf_cpu_to_be64(value->u.MainControlImpl_send_nh.smac);
-                                                                        hdr->ethernet.dstAddr = ntohll(value->u.MainControlImpl_send_nh.dmac << 16);
+                                    storePrimitive64(&hdr->ethernet.srcAddr, 48, (bpf_cpu_to_be64(value->u.MainControlImpl_send_nh.smac)));
+                                                                        storePrimitive64(&hdr->ethernet.dstAddr, 48, (ntohll(value->u.MainControlImpl_send_nh.dmac << 16)));
                                 }
                                 break;
                             case MAINCONTROLIMPL_IPV4_TBL_1_ACT_MAINCONTROLIMPL_DFLT_ROUTE_DROP: 

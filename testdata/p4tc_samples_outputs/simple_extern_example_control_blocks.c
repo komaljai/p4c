@@ -27,8 +27,8 @@ struct __attribute__((__packed__)) ingress_nh_table_value {
         } ingress_ext_reg;
         struct __attribute__((__packed__)) {
             u32 port_id;
-            u64 dmac;
-            u64 smac;
+            u8 dmac[6];
+            u8 smac[6];
         } ingress_send_nh;
         struct {
         } ingress_drop;
@@ -66,8 +66,8 @@ static __always_inline int process(struct __sk_buff *skb, struct my_ingress_head
         struct reg_val_t arg_val_0;
         __builtin_memset((void *) &arg_val_0, 0, sizeof(struct reg_val_t ));
         {
-            arg_val_0.protocol = hdr->ipv4.protocol;
-                        arg_val_0.aux = 22;
+            arg_val_0.protocol = hdr->ipv4.protocol
+                        arg_val_0.aux = 22
             /* reg3_0.write(2, arg_val_0) */
             __builtin_memset(&ext_params, 0, sizeof(struct p4tc_ext_bpf_params));
             ext_params.pipe_id = p4tc_filter_fields.pipeid;
@@ -117,7 +117,7 @@ static __always_inline int process(struct __sk_buff *skb, struct my_ingress_head
                                      return TC_ACT_SHOT;
 ext_val = *ext_val_ptr;
                                 __builtin_memcpy(&val_0, ext_val.out_params, sizeof(u32 ));
-                                                                val_0 = (val_0 + 10);
+                                                                val_0 = (val_0 + 10)
                                 /* reg1_0.write(value->u.ingress_ext_reg.port_id, val_0) */
                                 __builtin_memset(&ext_params, 0, sizeof(struct p4tc_ext_bpf_params));
                                 ext_params.pipe_id = p4tc_filter_fields.pipeid;
@@ -135,8 +135,8 @@ ext_val = *ext_val_ptr;
                             break;
                         case INGRESS_NH_TABLE_ACT_INGRESS_SEND_NH: 
                             {
-                                hdr->ethernet.srcAddr = value->u.ingress_send_nh.smac;
-                                                                hdr->ethernet.dstAddr = value->u.ingress_send_nh.dmac;
+                                storePrimitive64(&hdr->ethernet.srcAddr, 48, (value->u.ingress_send_nh.smac));
+                                                                storePrimitive64(&hdr->ethernet.dstAddr, 48, (value->u.ingress_send_nh.dmac));
                                 /* send_to_port(value->u.ingress_send_nh.port_id) */
                                 compiler_meta__->drop = false;
                                 send_to_port(value->u.ingress_send_nh.port_id);

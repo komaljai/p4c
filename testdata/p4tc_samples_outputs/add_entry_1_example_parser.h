@@ -12,8 +12,8 @@
 
 
 struct ethernet_t {
-    u64 dstAddr; /* EthernetAddress */
-    u64 srcAddr; /* EthernetAddress */
+    u8 dstAddr[6]; /* EthernetAddress */
+    u8 srcAddr[6]; /* EthernetAddress */
     u16 etherType; /* bit<16> */
     u8 ebpf_valid;
 };
@@ -39,8 +39,8 @@ struct headers_t {
     struct ipv4_t ipv4; /* ipv4_t */
 };
 struct tuple_0 {
-    u64 f0; /* bit<48> */
-    u64 f1; /* bit<48> */
+    u8 f0[6]; /* bit<48> */
+    u8 f1[6]; /* bit<48> */
 };
 
 struct hdr_md {
@@ -64,6 +64,39 @@ REGISTER_START()
 REGISTER_TABLE(hdr_md_cpumap, BPF_MAP_TYPE_PERCPU_ARRAY, u32, struct hdr_md, 2)
 BPF_ANNOTATE_KV_PAIR(hdr_md_cpumap, u32, struct hdr_md)
 REGISTER_END()
+
+u32 getPrimitive32(u8 *a, int size) {
+   return  ((a[2]<<16) | (a[1] << 8) | a[0]);
+}
+u64 getPrimitive64(u8 *a, int size) {
+   if(size < 40) {
+       return  ((a[4] << 32) | (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0]);
+   } else {
+       if(size < 48) {
+           return  ((a[5] << 40) | (a[4] << 32) | (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0]);
+       } else {
+           return  ((a[6] << 48) | (a[5] << 40) | (a[4] << 32) | (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0]);
+       }
+   }
+}
+void storePrimitive32(u8 *a, u32 value) {
+   a[0] = (u8)(value);
+   a[1] = (u8)(value >> 8);
+   a[2] = (u8)(value >> 16);
+}
+void storePrimitive64(u8 *a, int size, u64 value) {
+   a[0] = (u8)(value);
+   a[1] = (u8)(value >> 8);
+   a[2] = (u8)(value >> 16);
+   a[3] = (u8)(value >> 24);
+   a[4] = (u8)(value >> 32);
+   if (size < 48) {
+       a[5] = (u8)(value >> 40);
+   }
+   if (size < 56){
+       a[6] = (u8)(value >> 48);
+   }
+}
 
 static __always_inline
 void crc16_update(u16 * reg, const u8 * data, u16 data_size, const u16 poly) {
