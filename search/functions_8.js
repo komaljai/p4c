@@ -45,7 +45,7 @@ var searchData=
   ['islibrarymethod_42',['isLibraryMethod',['../class_p4_1_1_e_b_p_f_1_1_e_b_p_f_program.html#a7f1db8d77a08f1cb11e54d34c226021c',1,'P4::EBPF::EBPFProgram::isLibraryMethod()'],['../class_p4_1_1_u_b_p_f_1_1_u_b_p_f_program.html#acbdb4324b3a3aa403b33e06224713c05',1,'P4::UBPF::UBPFProgram::isLibraryMethod()']]],
   ['isloaligned_43',['isLoAligned',['../struct_p4_1_1_half_open_range.html#a5ac35a06da0a0a2602f2b2cabcb22b34',1,'P4::HalfOpenRange::isLoAligned()'],['../struct_p4_1_1_closed_range.html#a90c6591d83a99b1b36f8785244646cd3',1,'P4::ClosedRange::isLoAligned()']]],
   ['islpmtable_44',['isLPMTable',['../class_p4_1_1_e_b_p_f_1_1_e_b_p_f_table.html#ad780e5f49967996739089a2de05abfe4',1,'P4::EBPF::EBPFTable']]],
-  ['isnestedstruct_45',['isNestedStruct',['../class_p4_1_1_complex_values.html#ac291c7ad90bf1d1061c79ddfdf08366f',1,'P4::ComplexValues']]],
+  ['isnestedstruct_45',['isNestedStruct',['../class_p4_1_1_complex_values.html#af1df18a2d0d8ab84bc1d8664296dd538',1,'P4::ComplexValues']]],
   ['isnot_46',['isNot',['../class_p4_1_1_p4_tools_1_1_p4_testgen_1_1_bmv2_1_1_token.html#a97ab9a18c1613a98438b5a554f6cacbe',1,'P4::P4Tools::P4Testgen::Bmv2::Token']]],
   ['isone_47',['isOne',['../class_p4_1_1_do_strength_reduction.html#ab33d4d25bc6e5fabd6b5421d1f597369',1,'P4::DoStrengthReduction']]],
   ['isoneof_48',['isOneOf',['../class_p4_1_1_p4_tools_1_1_p4_testgen_1_1_bmv2_1_1_token.html#a9c13cf4f21a63000f74c340f3a6b6772',1,'P4::P4Tools::P4Testgen::Bmv2::Token']]],
@@ -64,7 +64,7 @@ var searchData=
   ['isterminalstate_61',['isTerminalState',['../namespace_p4.html#a7126d7f873055d1e56b3e47815f520f4',1,'P4']]],
   ['istrue_62',['isTrue',['../class_p4_1_1_do_strength_reduction.html#a430e39c46cd804978545e8b7ca3aa76c',1,'P4::DoStrengthReduction']]],
   ['isunifiabletypevariable_63',['isUnifiableTypeVariable',['../class_p4_1_1_type_constraints.html#adf275ac5ed02bf832ba4f11860a9baab',1,'P4::TypeConstraints']]],
-  ['isused_64',['isUsed',['../class_p4_1_1_reference_map.html#af2f1886078ad29023c8df71d9dd8aaf7',1,'P4::ReferenceMap']]],
+  ['isused_64',['isUsed',['../class_p4_1_1_reference_map.html#af2f1886078ad29023c8df71d9dd8aaf7',1,'P4::ReferenceMap::isUsed()'],['../class_p4_1_1_used_decl_set.html#a3d53da6b2854776165f14dcac48d1901',1,'P4::UsedDeclSet::isUsed()']]],
   ['isv1_65',['isV1',['../class_p4_1_1_reference_map.html#afe67a5819292e5200fa0dc98c38cf410',1,'P4::ReferenceMap']]],
   ['isv1_66',['isv1',['../class_p4_1_1_parser_options.html#a199177c4bd3d579a7842a1a13e1c8d80',1,'P4::ParserOptions']]],
   ['iszero_67',['isZero',['../class_p4_1_1_do_strength_reduction.html#a0ae8e133282a7d0e3193c1cd90d0b3d9',1,'P4::DoStrengthReduction']]]
