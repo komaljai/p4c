@@ -64,7 +64,7 @@ static __always_inline int process(struct __sk_buff *skb, struct headers_t *hdr,
     meta = &(hdrMd->cpumap_usermeta);
 {
         u8 hit;
-        u64 tmp_5 = 0;
+        u8 tmp_5[6] = {0};
         {
 if (/* hdr->p4calc.isValid() */
             hdr->p4calc.ebpf_valid) {
@@ -96,10 +96,10 @@ if (/* hdr->p4calc.isValid() */
                         switch (value->action) {
                             case MAINCONTROLIMPL_CALCULATE_ACT_MAINCONTROLIMPL_OPERATION_ADD: 
                                 {
-                                    hdr->p4calc.res = (hdr->p4calc.operand_a + hdr->p4calc.operand_b);
-                                                                        tmp_5 = hdr->ethernet.dstAddr;
-                                                                        hdr->ethernet.dstAddr = hdr->ethernet.srcAddr;
-                                                                        hdr->ethernet.srcAddr = tmp_5;
+                                    hdr->p4calc.res = (hdr->p4calc.operand_a + hdr->p4calc.operand_b)
+                                                                        tmp_5 = getPrimitive64(hdr->ethernet.dstAddr, 48)
+                                                                        storePrimitive64(&hdr->ethernet.dstAddr, 48, (getPrimitive64(hdr->ethernet.srcAddr, 48)));
+                                                                        storePrimitive64(&hdr->ethernet.srcAddr, 48, (tmp_5));
                                     /* send_to_port(skb->ifindex) */
                                     compiler_meta__->drop = false;
                                     send_to_port(skb->ifindex);
@@ -107,10 +107,10 @@ if (/* hdr->p4calc.isValid() */
                                 break;
                             case MAINCONTROLIMPL_CALCULATE_ACT_MAINCONTROLIMPL_OPERATION_SUB: 
                                 {
-                                    hdr->p4calc.res = (hdr->p4calc.operand_a - hdr->p4calc.operand_b);
-                                                                        tmp_5 = hdr->ethernet.dstAddr;
-                                                                        hdr->ethernet.dstAddr = hdr->ethernet.srcAddr;
-                                                                        hdr->ethernet.srcAddr = tmp_5;
+                                    hdr->p4calc.res = (hdr->p4calc.operand_a - hdr->p4calc.operand_b)
+                                                                        tmp_5 = getPrimitive64(hdr->ethernet.dstAddr, 48)
+                                                                        storePrimitive64(&hdr->ethernet.dstAddr, 48, (getPrimitive64(hdr->ethernet.srcAddr, 48)));
+                                                                        storePrimitive64(&hdr->ethernet.srcAddr, 48, (tmp_5));
                                     /* send_to_port(skb->ifindex) */
                                     compiler_meta__->drop = false;
                                     send_to_port(skb->ifindex);
@@ -118,10 +118,10 @@ if (/* hdr->p4calc.isValid() */
                                 break;
                             case MAINCONTROLIMPL_CALCULATE_ACT_MAINCONTROLIMPL_OPERATION_AND: 
                                 {
-                                    hdr->p4calc.res = (hdr->p4calc.operand_a & hdr->p4calc.operand_b);
-                                                                        tmp_5 = hdr->ethernet.dstAddr;
-                                                                        hdr->ethernet.dstAddr = hdr->ethernet.srcAddr;
-                                                                        hdr->ethernet.srcAddr = tmp_5;
+                                    hdr->p4calc.res = (hdr->p4calc.operand_a & hdr->p4calc.operand_b)
+                                                                        tmp_5 = getPrimitive64(hdr->ethernet.dstAddr, 48)
+                                                                        storePrimitive64(&hdr->ethernet.dstAddr, 48, (getPrimitive64(hdr->ethernet.srcAddr, 48)));
+                                                                        storePrimitive64(&hdr->ethernet.srcAddr, 48, (tmp_5));
                                     /* send_to_port(skb->ifindex) */
                                     compiler_meta__->drop = false;
                                     send_to_port(skb->ifindex);
@@ -129,10 +129,10 @@ if (/* hdr->p4calc.isValid() */
                                 break;
                             case MAINCONTROLIMPL_CALCULATE_ACT_MAINCONTROLIMPL_OPERATION_OR: 
                                 {
-                                    hdr->p4calc.res = (hdr->p4calc.operand_a | hdr->p4calc.operand_b);
-                                                                        tmp_5 = hdr->ethernet.dstAddr;
-                                                                        hdr->ethernet.dstAddr = hdr->ethernet.srcAddr;
-                                                                        hdr->ethernet.srcAddr = tmp_5;
+                                    hdr->p4calc.res = (hdr->p4calc.operand_a | hdr->p4calc.operand_b)
+                                                                        tmp_5 = getPrimitive64(hdr->ethernet.dstAddr, 48)
+                                                                        storePrimitive64(&hdr->ethernet.dstAddr, 48, (getPrimitive64(hdr->ethernet.srcAddr, 48)));
+                                                                        storePrimitive64(&hdr->ethernet.srcAddr, 48, (tmp_5));
                                     /* send_to_port(skb->ifindex) */
                                     compiler_meta__->drop = false;
                                     send_to_port(skb->ifindex);
@@ -140,10 +140,10 @@ if (/* hdr->p4calc.isValid() */
                                 break;
                             case MAINCONTROLIMPL_CALCULATE_ACT_MAINCONTROLIMPL_OPERATION_XOR: 
                                 {
-                                    hdr->p4calc.res = (hdr->p4calc.operand_a ^ hdr->p4calc.operand_b);
-                                                                        tmp_5 = hdr->ethernet.dstAddr;
-                                                                        hdr->ethernet.dstAddr = hdr->ethernet.srcAddr;
-                                                                        hdr->ethernet.srcAddr = tmp_5;
+                                    hdr->p4calc.res = (hdr->p4calc.operand_a ^ hdr->p4calc.operand_b)
+                                                                        tmp_5 = getPrimitive64(hdr->ethernet.dstAddr, 48)
+                                                                        storePrimitive64(&hdr->ethernet.dstAddr, 48, (getPrimitive64(hdr->ethernet.srcAddr, 48)));
+                                                                        storePrimitive64(&hdr->ethernet.srcAddr, 48, (tmp_5));
                                     /* send_to_port(skb->ifindex) */
                                     compiler_meta__->drop = false;
                                     send_to_port(skb->ifindex);

@@ -140,8 +140,8 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
                 hdr_start = hdr_start_save;
                 ebpf_packetOffsetInBits = ebpf_packetOffsetInBits_save;
             }
-            u32 select_0;
-            select_0 = (((((u32)(((u16)tmp_0.p << 8) | ((u16)tmp_2.four & 0xff)) << 8) & ((1 << 24) - 1)) | (((u32)tmp_4.ver & 0xff) & ((1 << 24) - 1))) & ((1 << 24) - 1));
+            u8 select_0[3];
+            select_0 = (((((u32)(((u16)tmp_0.p << 8) | ((u16)tmp_2.four & 0xff)) << 8) & ((1 << 24) - 1)) | (((u32)tmp_4.ver & 0xff) & ((1 << 24) - 1))) & ((1 << 24) - 1))
             if (select_0 == 0x503401)goto parse_p4calc;
             if ((select_0 & 0x0) == (0x0 & 0x0))goto accept;
             else goto reject;
@@ -203,7 +203,7 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct headers_t *h
 
 ;
             u16 select_1;
-            select_1 = hdr->ethernet.etherType;
+            select_1 = hdr->ethernet.etherType
             if (select_1 == 0x1234)goto check_p4calc;
             if ((select_1 & 0x0) == (0x0 & 0x0))goto accept;
             else goto reject;

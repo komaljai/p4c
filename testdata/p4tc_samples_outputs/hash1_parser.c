@@ -79,7 +79,7 @@ static __always_inline int run_parser(struct __sk_buff *skb, struct my_ingress_h
 
 ;
             u16 select_0;
-            select_0 = hdr->ethernet.etherType;
+            select_0 = hdr->ethernet.etherType
             if (select_0 == 0x800)goto parse_ipv4;
             if ((select_0 & 0x0) == (0x0 & 0x0))goto reject;
             else goto reject;

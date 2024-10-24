@@ -113,14 +113,14 @@ if (/* hdr->ipv4.isValid() */
                                 {
                                     if (value->is_default_miss_act) 
                                     {
-                                        hdr->ipv4.dstAddr = p4tc_filter_fields.ipv4_tbl_1_next_hop_ipv4addr;
+                                        hdr->ipv4.dstAddr = p4tc_filter_fields.ipv4_tbl_1_next_hop_ipv4addr
                                         /* send_to_port(8) */
                                         compiler_meta__->drop = false;
                                         send_to_port(8);
                                     }
                                     else
                                     {
-                                        hdr->ipv4.dstAddr = value->u.MainControlImpl_next_hop.ipv4addr;
+                                        hdr->ipv4.dstAddr = value->u.MainControlImpl_next_hop.ipv4addr
                                         /* send_to_port(8) */
                                         compiler_meta__->drop = false;
                                         send_to_port(8);
@@ -172,7 +172,7 @@ if (/* hdr->ipv4.isValid() */
                         switch (value->action) {
                             case MAINCONTROLIMPL_IPV4_TBL_2_ACT_MAINCONTROLIMPL_NEXT_HOP: 
                                 {
-                                    hdr->ipv4.dstAddr = value->u.MainControlImpl_next_hop.ipv4addr;
+                                    hdr->ipv4.dstAddr = value->u.MainControlImpl_next_hop.ipv4addr
                                     /* send_to_port(8) */
                                     compiler_meta__->drop = false;
                                     send_to_port(8);

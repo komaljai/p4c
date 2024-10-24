@@ -129,7 +129,11 @@ class CodeGenInspector : public Inspector {
     void emitAndConvertByteOrder(const IR::Expression *expr, cstring byte_order);
     void emitTCBinaryOperation(const IR::Operation_Binary *b, bool isScalar);
     void emitTCAssignmentEndianessConversion(const IR::Expression *lexpr,
-                                             const IR::Expression *rexpr);
+                                             const IR::Expression *rexpr,
+                                             cstring lpath, bool memcpy, unsigned width);
+    void getBitAlignment(const IR::Expression* expression);
+    bool isPrimitive(const IR::Expression* expression);
+    void storeBitAlignment(const IR::Expression* lexpr, const IR::Expression* rexpr);
 };
 
 class EBPFInitializerUtils {
