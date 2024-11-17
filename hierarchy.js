@@ -697,6 +697,7 @@ var hierarchy =
     [ "P4::BMV2::Helpers::CounterlikeTraits< Standard::MeterExtern< Standard::Arch::V1MODEL > >", "struct_p4_1_1_b_m_v2_1_1_helpers_1_1_counterlike_traits_3_01_standard_1_1_meter_extern_3_01_stan0e7f2bd41fb20ae16e6df4aa3a5ccea8.html", null ],
     [ "P4::BMV2::Helpers::CounterlikeTraits< Standard::MeterExtern< Standard::Arch::V1MODEL2020 > >", "struct_p4_1_1_b_m_v2_1_1_helpers_1_1_counterlike_traits_3_01_standard_1_1_meter_extern_3_01_stan01b1106c7bcb19b48625129200a629a0.html", null ],
     [ "P4::BMV2::JsonObjects", "class_p4_1_1_b_m_v2_1_1_json_objects.html", null ],
+    [ "P4::BMV2::JumpLabelInfo", "namespace_p4_1_1_b_m_v2.html#struct_p4_1_1_b_m_v2_1_1_jump_label_info", null ],
     [ "P4::BMV2::MatchImplementation", "class_p4_1_1_b_m_v2_1_1_match_implementation.html", null ],
     [ "P4::BMV2::PortableCodeGenerator", "class_p4_1_1_b_m_v2_1_1_portable_code_generator.html", [
       [ "P4::BMV2::PnaCodeGenerator", "class_p4_1_1_b_m_v2_1_1_pna_code_generator.html", null ],
@@ -1118,6 +1119,7 @@ var hierarchy =
             [ "P4::IR::Vector< IR::NamedExpression >", "class_p4_1_1_i_r_1_1_vector.html", [
               [ "P4::IR::IndexedVector< IR::NamedExpression >", "class_p4_1_1_i_r_1_1_indexed_vector.html", null ]
             ] ],
+            [ "P4::IR::Vector< IR::Annotation >", "class_p4_1_1_i_r_1_1_vector.html", null ],
             [ "P4::IR::Vector< IR::Expression >", "class_p4_1_1_i_r_1_1_vector.html", null ],
             [ "P4::IR::Vector< P4::IR::Node >", "class_p4_1_1_i_r_1_1_vector.html", [
               [ "P4::IR::IndexedVector< P4::IR::Node >", "class_p4_1_1_i_r_1_1_indexed_vector.html", null ]
@@ -1160,7 +1162,6 @@ var hierarchy =
             ] ],
             [ "P4::IR::Vector< IR::SelectCase >", "class_p4_1_1_i_r_1_1_vector.html", null ],
             [ "P4::IR::Vector< N >", "class_p4_1_1_i_r_1_1_vector.html", null ],
-            [ "P4::IR::Vector< IR::Annotation >", "class_p4_1_1_i_r_1_1_vector.html", null ],
             [ "P4::IR::Vector< T >", "class_p4_1_1_i_r_1_1_vector.html", [
               [ "P4::IR::IndexedVector< T >", "class_p4_1_1_i_r_1_1_indexed_vector.html", null ]
             ] ]
@@ -2391,6 +2392,7 @@ var hierarchy =
     [ "P4::Util::Hasher< cstring >", "struct_p4_1_1_util_1_1_hasher_3_01cstring_01_4.html", null ],
     [ "P4::Util::Hasher< HalfOpenRange< Unit, Order > >", "struct_p4_1_1_util_1_1_hasher_3_01_half_open_range_3_01_unit_00_01_order_01_4_01_4.html", null ],
     [ "P4::Util::Hasher< IR::ID >", "struct_p4_1_1_util_1_1_hasher_3_01_i_r_1_1_i_d_01_4.html", null ],
+    [ "P4::Util::Hasher< P4::loc_t >", "struct_p4_1_1_util_1_1_hasher_3_01_p4_1_1loc__t_01_4.html", null ],
     [ "P4::Util::Hasher< P4::ProgramPoint >", "struct_p4_1_1_util_1_1_hasher_3_01_p4_1_1_program_point_01_4.html", null ],
     [ "P4::Util::Hasher< std::pair< T1, T2 > >", "struct_p4_1_1_util_1_1_hasher_3_01std_1_1pair_3_01_t1_00_01_t2_01_4_01_4.html", null ],
     [ "P4::Util::Hasher< std::shared_ptr< T > >", "struct_p4_1_1_util_1_1_hasher_3_01std_1_1shared__ptr_3_01_t_01_4_01_4.html", null ],
@@ -4105,6 +4107,7 @@ var hierarchy =
       [ "P4::safe_vector< const IR::BFN::Pipe * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< IXBar::Use::Byte >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< const IR::NamedExpression * >", "class_p4_1_1safe__vector.html", null ],
+      [ "P4::safe_vector< const IR::Annotation * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< const IR::Expression * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< const P4::IR::Node * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< const IR::StructField * >", "class_p4_1_1safe__vector.html", null ],
@@ -4145,7 +4148,6 @@ var hierarchy =
       [ "P4::safe_vector< struct P4::TC::ExternAttributes * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< struct P4::TC::TableAttributes * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< struct P4::TC::ActionAttributes * >", "class_p4_1_1safe__vector.html", null ],
-      [ "P4::safe_vector< const IR::Annotation * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< const P4::graphs::ParserGraphs::TransitionEdge * >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< PHV::FieldOperation >", "class_p4_1_1safe__vector.html", null ],
       [ "P4::safe_vector< PHV::AllocSlice >", "class_p4_1_1safe__vector.html", null ],
