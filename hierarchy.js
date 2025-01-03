@@ -2542,7 +2542,7 @@ var hierarchy =
           [ "BuildP4HashFunction", "class_build_p4_hash_function.html", null ],
           [ "CalcParserCriticalPath", "class_calc_parser_critical_path.html", null ],
           [ "CheckForUnallocatedTemps", "class_check_for_unallocated_temps.html", null ],
-          [ "CheckParserMultiWrite", "group__parde.html#struct_check_parser_multi_write", null ],
+          [ "CheckParserMultiWrite", "group__parde.html#class_check_parser_multi_write", null ],
           [ "CheckUninitializedAndOverlayedReads", "class_check_uninitialized_and_overlayed_reads.html", null ],
           [ "Clustering", "class_clustering.html", null ],
           [ "CollectDarkCandidates", "class_collect_dark_candidates.html", null ],
@@ -2901,7 +2901,7 @@ var hierarchy =
         [ "Logging::Manifest", "class_logging_1_1_manifest.html", null ],
         [ "MapDestToInstruction", "struct_map_dest_to_instruction.html", null ],
         [ "MapFieldToExpr", "class_map_field_to_expr.html", null ],
-        [ "MapFieldToParserStates", "struct_map_field_to_parser_states.html", null ],
+        [ "MapFieldToParserStates", "class_map_field_to_parser_states.html", null ],
         [ "MapTablesToActions", "class_map_tables_to_actions.html", null ],
         [ "MarkDarkCandidates", "class_mark_dark_candidates.html", null ],
         [ "MarkFieldAsBridged", "class_mark_field_as_bridged.html", null ],
@@ -3080,7 +3080,9 @@ var hierarchy =
               [ "P4::EBPF::ActionTranslationVisitorPSA", "class_p4_1_1_e_b_p_f_1_1_action_translation_visitor_p_s_a.html", null ]
             ] ],
             [ "P4::EBPF::DeparserBodyTranslator", "class_p4_1_1_e_b_p_f_1_1_deparser_body_translator.html", [
-              [ "P4::EBPF::DeparserBodyTranslatorPSA", "class_p4_1_1_e_b_p_f_1_1_deparser_body_translator_p_s_a.html", null ]
+              [ "P4::EBPF::DeparserBodyTranslatorPSA", "class_p4_1_1_e_b_p_f_1_1_deparser_body_translator_p_s_a.html", [
+                [ "P4::TC::DeparserBodyTranslatorPNA", "class_p4_1_1_t_c_1_1_deparser_body_translator_p_n_a.html", null ]
+              ] ]
             ] ],
             [ "P4::EBPF::DeparserPrepareBufferTranslator", "class_p4_1_1_e_b_p_f_1_1_deparser_prepare_buffer_translator.html", [
               [ "P4::EBPF::DeparserHdrEmitTranslator", "class_p4_1_1_e_b_p_f_1_1_deparser_hdr_emit_translator.html", null ],
@@ -3724,6 +3726,8 @@ var hierarchy =
     [ "p4tc_ext_bpf_params", "structp4tc__ext__bpf__params.html", null ],
     [ "p4tc_ext_bpf_val", "structp4tc__ext__bpf__val.html", null ],
     [ "p4tc_ext_csum_params", "structp4tc__ext__csum__params.html", null ],
+    [ "p4tc_skb_meta_get", "structp4tc__skb__meta__get.html", null ],
+    [ "p4tc_skb_meta_set", "structp4tc__skb__meta__set.html", null ],
     [ "p4tc_table_entry_act_bpf_params__local", "structp4tc__table__entry__act__bpf__params____local.html", null ],
     [ "p4tc_table_entry_create_bpf_params__local", "structp4tc__table__entry__create__bpf__params____local.html", null ],
     [ "P4WriteContext", null, [
@@ -3799,7 +3803,7 @@ var hierarchy =
     [ "PHV::AllocContext", "class_p_h_v_1_1_alloc_context.html", null ],
     [ "PHV::AllocSetting", "namespace_p_h_v.html#struct_p_h_v_1_1_alloc_setting", null ],
     [ "PHV::AllocSlice", "class_p_h_v_1_1_alloc_slice.html", null ],
-    [ "PHV::AllocUtils", "struct_p_h_v_1_1_alloc_utils.html", null ],
+    [ "PHV::AllocUtils", "class_p_h_v_1_1_alloc_utils.html", null ],
     [ "PHV::ClusterStats", "class_p_h_v_1_1_cluster_stats.html", [
       [ "PHV::AlignedCluster", "class_p_h_v_1_1_aligned_cluster.html", null ],
       [ "PHV::RotationalCluster", "class_p_h_v_1_1_rotational_cluster.html", null ],
